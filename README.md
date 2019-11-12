@@ -28,3 +28,18 @@ Use `Node.js`, `Express` and `Knex` to build an API that provides **Register** a
 
 - Write a piece of **global** middleware that ensures a user is logged in when accessing _any_ route prefixed by `/api/restricted/`. For instance, `/api/restricted/something`, `/api/restricted/other`, and `/api/restricted/a` should all be protected by the middleware; only logged in users should be able to access these routes.
 - Build a React application that implements components to register, login and view a list of users. Gotta keep sharpening your React skills.
+
+
+Steps in building //
+npm i knex express helmet sqlite 3 cors bcryptjs
+npm i nodemon -d
+npm init -y build package.json
+build knex knex init
+build out folder structure api folder, auth, database, users, an index.js
+place correct server start script in package.json nodemon index.js and start script node
+build out server.js and index.js with server startup and use script
+build out knex file with needed syntax
+Build out routers and models with correct endpoints
+
+
+
