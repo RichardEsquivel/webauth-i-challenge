@@ -31,7 +31,7 @@ Use `Node.js`, `Express` and `Knex` to build an API that provides **Register** a
 
 
 Steps in building //
-npm i knex express helmet sqlite 3 cors bcryptjs
+npm i knex express helmet sqlite 3 cors bcryptjs dotenv
 npm i nodemon -d
 npm init -y build package.json
 build knex knex init
@@ -39,7 +39,7 @@ build out folder structure api folder, auth, database, users, an index.js
 place correct server start script in package.json nodemon index.js and start script node
 build out server.js and index.js with server startup and use script
 build out knex file with needed syntax
+build out dbConfig.js
+perform knex migrate:make bootstrap to create beginning migration to create a table through a knex connection intermediary
 Build out routers and models with correct endpoints
-
-
-
+api router
