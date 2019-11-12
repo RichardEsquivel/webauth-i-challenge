@@ -8,7 +8,9 @@ router.get('/', requiresAuth, (req, res) => {
 		.then(users => {
 			res.json(users);
 		})
-		.catch(err => res.send(err));
-});
-
+		.catch(error => {
+			console.log('login error', error);
+			res.status(500).json(error);
+		});
+})
 module.exports = router;
