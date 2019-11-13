@@ -1,25 +1,22 @@
-//build out user authorization router at register and login endpoints
-
-const bcrypt = require('bcryptjs');
-
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 
 const Users = require('../users/users-model.js');
 
+// for endpoints beginning with /api/auth
 router.post('/register', (req, res) => {
-	let userInformation = req.body;
+	let user = req.body;
+	const hash = bcrypt.hashSync(user.password, 14); // 2 ^ n
+	user.password = hash;
 
-	bcrypt.hash(userInformation.password, 12, (err, hashedPasswod) => {
-		userInformation.password = hashedPasswod;
-
-		Users.add(userInformation)
-			.then(saved => {
-				res.status(201).json(saved);
-			})
-			.catch(error => {
-				res.status(500).json(error);
-			});
-	});
+	Users.add(user)
+		.then(saved => {
+			res.session.username = saved.username;// allow the user to now be logged in and not make them log in again.
+			res.status(201).json(saved);
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		});
 });
 
 router.post('/login', (req, res) => {
@@ -28,17 +25,32 @@ router.post('/login', (req, res) => {
 	Users.findBy({ username })
 		.first()
 		.then(user => {
-			// check that the password is valid
 			if (user && bcrypt.compareSync(password, user.password)) {
-				res.status(200).json({ message: `Welcome ${user.username}!` });
+				req.session.username = user.username; //good add properties to the existing user object don't overide session objects that are being used by other parts of the application
+				res.status(200).json({
+					message: `Welcome ${user.username}!`,
+				});
 			} else {
 				res.status(401).json({ message: 'Invalid Credentials' });
 			}
 		})
 		.catch(error => {
-			console.log('login error', error);
 			res.status(500).json(error);
 		});
 });
+
+router.get('/logout', (req, res) => {
+	if (req.session) {
+		req.session.destroy(error => {
+			if (error) {
+				res.status(500).json({
+					message: "You are stuck here, sorry no logout!"
+				});
+			} else {
+				res.status(200).json({ message: "Logged out now!" })
+			}
+		})
+	}
+})
 
 module.exports = router;
