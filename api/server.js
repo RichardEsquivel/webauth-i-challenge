@@ -7,6 +7,7 @@ const authRouter = require('../auth/auth-router.js');
 const usersRouter = require('../users/users-router.js');
 const KnexConnection = require('../database/dbConfig.js');
 
+
 const server = express();
 //configuring sessions and cookies here
 const sessionConfiguration = {
